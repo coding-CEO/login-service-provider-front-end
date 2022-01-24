@@ -3,7 +3,9 @@ import './NavBar.css';
 
 const NavBar = () => {
     return (
-        <div>Nav Bar</div>
+        <div className="navbarContainer">
+            <h3>Login Service Provider</h3>
+        </div>
     );
 }
 
