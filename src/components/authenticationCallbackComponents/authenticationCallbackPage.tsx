@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useLocation, useParams } from 'react-router-dom';
 import { credentialAxiosInstance } from '../../utils/axiosInstance';
 import { ErrorHandler } from '../../utils/ErrorHandler';
+import { targetUrlLocalStorageKey, tokenCookieName } from '../../utils/Keys';
 import { Page } from '../../utils/Page';
 
 interface Params {
@@ -37,8 +38,12 @@ const AuthenticationCallbackPage = () => {
     const getUserInfoJWTGoogle = async () => {
         try {
             const result = await credentialAxiosInstance.get(`/auth/google/verifyUserOAuthCode${location.search}`);
-            //TODO: push the token to target_url in params
             console.log(result.data);
+            //TODO: push the token to target_url in params
+            const targetUrl = localStorage.getItem(targetUrlLocalStorageKey) || '';
+            const targetUrlObject = new URL(targetUrl);
+            targetUrlObject.searchParams.append(tokenCookieName, result.data.IDTokenClaims.email); //TODO: store actual cookie value
+            Page.redirect(targetUrlObject.href);
         } catch (error) {
             ErrorHandler.handle(error);
         }
