@@ -1,0 +1,12 @@
+.navbarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 15px 20px;
+  background-color: rgb(241, 67, 67);
+  color: white;
+}
+
+.navbarContainer h3 {
+  font-weight: 500;
+}

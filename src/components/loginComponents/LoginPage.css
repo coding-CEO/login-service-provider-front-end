@@ -1,0 +1,17 @@
+.loginPageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 40px;
+}
+
+.loginPageContainer h2 {
+  font-weight: bold;
+  font-size: 22px;
+  color: rgb(37, 37, 37);
+}
+
+.loginOAuthProvidersContainer {
+  margin-top: 40px;
+}
