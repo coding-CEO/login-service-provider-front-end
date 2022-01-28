@@ -1,15 +1,24 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { OAuthProvider } from '../../../classes/oauthProvider';
 import { credentialAxiosInstance } from '../../../utils/axiosInstance';
 import { ErrorHandler } from '../../../utils/ErrorHandler';
+import { targetUrlLocalStorageKey } from '../../../utils/Keys';
 import { Page } from '../../../utils/Page';
+import { Url } from '../../../utils/Url';
 import "./OAuthProvider.css"
+
+interface QueryParams {
+    targetUrl?: string;
+}
 
 interface Props {
     oauthProvider: OAuthProvider;
 }
 
 const OAuthProviderComponent = (props: Props) => {
+
+    const location = useLocation();
 
     const handleLogin = async () => {
         const api = props.oauthProvider.api.trim();
@@ -19,11 +28,18 @@ const OAuthProviderComponent = (props: Props) => {
         }
         try {
             const result = await credentialAxiosInstance.get(api);
+            localStorage.setItem(targetUrlLocalStorageKey, getTargetUrlFromQueryParams());
             const googleOAuthUrl = result.data;
             Page.redirect(googleOAuthUrl);
         } catch (error) {
             ErrorHandler.handle(error);
         }
+    }
+
+    const getTargetUrlFromQueryParams = (): string => {
+        const queryParams: QueryParams = Url.searchQueryToObject(location.search);
+        if (queryParams.targetUrl === undefined) return '';
+        return queryParams.targetUrl;
     }
 
     const isWhiteBackground = (): boolean => {
